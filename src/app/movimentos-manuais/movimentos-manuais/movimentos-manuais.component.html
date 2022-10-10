@@ -1,145 +1,149 @@
 <div class="container">
-  <h1>Movimentos Manuais</h1>
-  <form #form="ngForm">
-    <div class="grid p-fluid">
-      <div class="col-6">
-        <label for="mesId">Mês:</label>
-        <p-inputNumber inputId="mesId" name="mesInput" [(ngModel)]="mes" #mesInput="ngModel" mode="decimal" [min]="1"
-          [max]="12" [disabled]="camposBloqueados" [required]="true">
-        </p-inputNumber>
-      </div>
-
-      <div class="col-6">
-        <label for="anoId">Ano:</label>
-        <p-inputNumber name='anoInput' #anoInput="ngModel" inputId="anoId" [(ngModel)]="ano"
-          [disabled]="camposBloqueados" [required]="true">
-        </p-inputNumber>
-      </div>
-
-      <div class="col-6">
-        <label for="produtoId">Produto:</label>
-        <p-dropdown inputId="produtoId" name="produtosInput" emptyMessage="Nenhuma opção para selecionar"
-          placeholder="-- Selecione --" #produtosInput="ngModel" [options]="produtos" [(ngModel)]="produtoSelecionado"
-          optionLabel="descricao" [disabled]="camposBloqueados" (onChange)="fetchProdutosCosif()" [required]="true">
-        </p-dropdown>
-      </div>
-
-      <div class="col-6">
-        <label for="cosifId">Cosif:</label>
-        <p-dropdown inputId="cosifId" name="cosifsInput" emptyMessage="Nenhuma opção para selecionar"
-          placeholder="-- Selecione --" #cosifsInput="ngModel" [options]="cosifs" [(ngModel)]="cosifSelecionado"
-          optionLabel="label" [disabled]="camposBloqueados" [required]="true">
-        </p-dropdown>
-      </div>
-
-      <div class="col-6">
-        <label for="valorId">Valor:</label>
-        <p-inputNumber inputId="valorId" mode="currency" currency="BRL" locale='pt-BR' placeholder="0,00"
-          [(ngModel)]="valor" #valorInput="ngModel" name="valorInput" [disabled]="camposBloqueados" [required]="true">
-        </p-inputNumber>
-      </div>
-    </div>
-
-    <div class="grid-nogutter">
-      <div class="col-6 p-fluid">
-        <label for="descricaoId">Descrição:</label>
-        <textarea name="descricaoInput" #descricaoInput="ngModel" id="descricaoId" [(ngModel)]="descricao" rows="2"
-          pInputTextarea [disabled]="camposBloqueados" [required]="true"></textarea>
-      </div>
-
-      <div class="col-6 flex flex-row" dir="rtl">
-        <button pButton type="button" class="p-button-primary mr-1" (click)="limparForm(form)">Limpar</button>
-        <button pButton type="button" class="p-button-primary mr-1" (click)="prepararNovoMovimento()">Novo</button>
-        <button pButton type="button" class="p-button-primary mr-1" (click)="salvarMovimento(form)"
-          [disabled]="form.invalid || camposBloqueados">Incluir</button>
-      </div>
-    </div>
-  </form>
-
-  <div class="grid-nogutter flex flex-row mt-4 align-items-end">
-    <div class="col-2 col-offset-1">
-      <label for="mesPesquisaId">Mês:</label>
-      <p-inputNumber inputId="mesPesquisaId" name="mesPesquisaInput" [(ngModel)]="mesPesquisa"
-        #mesPesquisaInput="ngModel" mode="decimal" [min]="1" [max]="12">
-      </p-inputNumber>
-    </div>
-
-    <div class="col-2">
-      <label for="anodInputId">Ano:</label>
-      <p-inputNumber name='anoPesquisaInput' #anoPesquisaInput="ngModel" inputId="anodInputId"
-        [(ngModel)]="anoPesquisa">
-      </p-inputNumber>
-    </div>
-
-    <div class="col-2">
-      <button pButton type="button" class="p-button-info" (click)="pesquisar()">Pesquisar</button>
-    </div>
-  </div>
-
-  <div class="grid-nogutter flex justify-content-center mt-2">
+  <div class="grid-nogguter flex justify-content-center">
     <div class="col-11">
-      <p-table [value]="movimentos" [responsive]="true" [scrollable]="true" scrollHeight="300px">
-        <ng-template pTemplate="header">
-          <tr>
-            <th>Mês</th>
-            <th>Ano</th>
-            <th>Código do Produto</th>
-            <th>Descrição do Produto</th>
-            <th>NR Lançamento</th>
-            <th>Descrição</th>
-            <th>Valor</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-movimento>
-          <tr>
-            <td>
-              <span class="p-column-title">Mês</span>
-              {{ movimento.mes }}
-            </td>
+      <h1>Movimentos Manuais</h1>
+      <form #form="ngForm">
+        <div class="grid p-fluid">
+          <div class="col-6">
+            <label for="mesId">Mês:</label>
+            <p-inputNumber inputId="mesId" name="mesInput" [(ngModel)]="mes" #mesInput="ngModel" mode="decimal"
+              [min]="1" [max]="12" [disabled]="camposBloqueados" [required]="true">
+            </p-inputNumber>
+          </div>
 
-            <td>
-              <span class="p-column-title">Ano</span>
-              {{ movimento.ano }}
-            </td>
+          <div class="col-6">
+            <label for="anoId">Ano:</label>
+            <p-inputNumber name='anoInput' #anoInput="ngModel" inputId="anoId" [(ngModel)]="ano"
+              [disabled]="camposBloqueados" [required]="true">
+            </p-inputNumber>
+          </div>
 
-            <td>
-              <span class="p-column-title">Código do Produto</span>
-              {{ movimento.produtoCosif.produto.codigo }}
-            </td>
+          <div class="col-6">
+            <label for="produtoId">Produto:</label>
+            <p-dropdown inputId="produtoId" name="produtosInput" emptyMessage="Nenhuma opção para selecionar"
+              placeholder="-- Selecione --" #produtosInput="ngModel" [options]="produtos"
+              [(ngModel)]="produtoSelecionado" optionLabel="descricao" [disabled]="camposBloqueados"
+              (onChange)="fetchProdutosCosif()" [required]="true">
+            </p-dropdown>
+          </div>
 
-            <td>
-              <span class="p-column-title">Descrição do Produto</span>
-              {{ movimento.produtoCosif.produto.descricao }}
-            </td>
+          <div class="col-6">
+            <label for="cosifId">Cosif:</label>
+            <p-dropdown inputId="cosifId" name="cosifsInput" emptyMessage="Nenhuma opção para selecionar"
+              placeholder="-- Selecione --" #cosifsInput="ngModel" [options]="cosifs" [(ngModel)]="cosifSelecionado"
+              optionLabel="label" [disabled]="camposBloqueados" [required]="true">
+            </p-dropdown>
+          </div>
 
-            <td>
-              <span class="p-column-title">NR Lançamento</span>
-              {{ movimento.nrLancamento }}
-            </td>
+          <div class="col-6">
+            <label for="valorId">Valor:</label>
+            <p-inputNumber inputId="valorId" mode="currency" currency="BRL" locale='pt-BR' placeholder="0,00"
+              [(ngModel)]="valor" #valorInput="ngModel" name="valorInput" [disabled]="camposBloqueados"
+              [required]="true">
+            </p-inputNumber>
+          </div>
+        </div>
 
-            <td>
-              <span class="p-column-title">Descrição</span>
-              {{ movimento.descricao }}
-            </td>
+        <div class="grid-nogutter">
+          <div class="col-6 p-fluid">
+            <label for="descricaoId">Descrição:</label>
+            <textarea name="descricaoInput" #descricaoInput="ngModel" id="descricaoId" [(ngModel)]="descricao" rows="2"
+              pInputTextarea [disabled]="camposBloqueados" [required]="true"></textarea>
+          </div>
 
-            <td>
-              <span class="p-column-title">Valor</span>
-              {{ movimento.valor | number:'1.2-2':'pt-BR' }}
-            </td>
+          <div class="col-6 flex flex-row" dir="rtl">
+            <button pButton type="button" class="p-button-primary mr-1" (click)="limparForm(form)">Limpar</button>
+            <button pButton type="button" class="p-button-primary mr-1" (click)="prepararNovoMovimento()">Novo</button>
+            <button pButton type="button" class="p-button-primary mr-1" (click)="salvarMovimento(form)"
+              [disabled]="form.invalid || camposBloqueados">Incluir</button>
+          </div>
+        </div>
+      </form>
 
-          </tr>
-        </ng-template>
+      <div class="grid-nogutter flex flex-row mt-4 align-items-end">
+        <div class="col-2 mr-4">
+          <label for="mesPesquisaId">Mês:</label>
+          <p-inputNumber inputId="mesPesquisaId" name="mesPesquisaInput" [(ngModel)]="mesPesquisa"
+            #mesPesquisaInput="ngModel" mode="decimal" [min]="1" [max]="12">
+          </p-inputNumber>
+        </div>
 
-        <ng-template pTemplate="emptymessage">
-          <tr>
-            <td colspan="11">
-              Nenhum movimento
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
+        <div class="col-2 mr-4">
+          <label for="anodInputId">Ano:</label>
+          <p-inputNumber name='anoPesquisaInput' #anoPesquisaInput="ngModel" inputId="anodInputId"
+            [(ngModel)]="anoPesquisa">
+          </p-inputNumber>
+        </div>
+
+        <div class="col-2">
+          <button pButton type="button" class="p-button-info" (click)="pesquisar()">Pesquisar</button>
+        </div>
+      </div>
+
+      <div class="grid-nogutter flex justify-content-center mt-2">
+        <div class="col-12">
+          <p-table [value]="movimentos" [responsive]="true" [scrollable]="true" scrollHeight="300px">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Mês</th>
+                <th>Ano</th>
+                <th>Código do Produto</th>
+                <th>Descrição do Produto</th>
+                <th>NR Lançamento</th>
+                <th>Descrição</th>
+                <th>Valor</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-movimento>
+              <tr>
+                <td>
+                  <span class="p-column-title">Mês</span>
+                  {{ movimento.mes }}
+                </td>
+
+                <td>
+                  <span class="p-column-title">Ano</span>
+                  {{ movimento.ano }}
+                </td>
+
+                <td>
+                  <span class="p-column-title">Código do Produto</span>
+                  {{ movimento.produtoCosif.produto.codigo }}
+                </td>
+
+                <td>
+                  <span class="p-column-title">Descrição do Produto</span>
+                  {{ movimento.produtoCosif.produto.descricao }}
+                </td>
+
+                <td>
+                  <span class="p-column-title">NR Lançamento</span>
+                  {{ movimento.nrLancamento }}
+                </td>
+
+                <td>
+                  <span class="p-column-title">Descrição</span>
+                  {{ movimento.descricao }}
+                </td>
+
+                <td>
+                  <span class="p-column-title">Valor</span>
+                  {{ movimento.valor | number:'1.2-2':'pt-BR' }}
+                </td>
+
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="11">
+                  Nenhum movimento
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
     </div>
   </div>
-
-
 </div>
